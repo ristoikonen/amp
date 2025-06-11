@@ -1,7 +1,14 @@
 
 import { useState, useEffect  } from 'react'
+//import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { SelectField,Link,Flex
+    ,Badge, View, Card, Divider, Heading, Button, Collection
+  } from '@aws-amplify/ui-react';
+  
 import './App.css';
 import FV from './components/FV/FV';
+import { ChangeEvent } from 'react';
+//import { useNavigate } from 'react-router-dom';
 
 
 interface IProduct {
@@ -16,6 +23,8 @@ function App() {
  const [pv, setPv] = useState<number>(0);
  const [nper, setNper] = useState<number>(0);
  const [fx, setFx] = useState<string>('');
+ const [selectedFx, setSelectedFx] = useState<string>('');
+ const [showFV, setShowFV] = useState<boolean>(false);
  //const [fv, setFv] = useState<string>('');
  //const [myproductprice, setMyProductPrice] = useState(0);
  //const [myproductcount, setMyProductCount] = useState(0);
@@ -35,6 +44,7 @@ console.log('App Rate:', rate, 'PV:', pv, 'Nper:', nper, 'functionName:', fx);
 /*     return (
       <FV rate={rate} pv={pv} nper={nper} />
     ); */
+
   }
 
 
@@ -56,9 +66,21 @@ const copyJSON =  (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
   }
 }
 
+  interface SelectChangeEvent extends ChangeEvent<HTMLSelectElement> {}
+
+  const handleSelectChange = (event: SelectChangeEvent): void => {
+    const selectedValue: string = event.target.value;
+    setSelectedFx(selectedValue);
+    console.log('Selected value:', selectedValue);
+    //if (selectedValue) {
+    //  const navigate = useNavigate();
+    //  navigate(selectedValue);
+    //  }
+  };
+
 useEffect(() => {
 
-  //console.log('Component mounted'); 
+
 
 })
 
@@ -68,9 +90,37 @@ useEffect(() => {
 
       <header className="App-header">
 
+
         <div>
           <code>Future value</code>
-          <FV rate={rate} pv = {pv} nper = {nper} functionname = {'FV'} />
+            <Flex>
+              <Link as="a" href="/FV/123" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
+              <Link as="a" href="/FV/321" style={{ textDecoration: 'none', color: 'inherit' }}>About</Link>
+              <Link as="a" href="/FV/444" style={{ textDecoration: 'none', color: 'inherit' }}>Users</Link>
+            </Flex>
+          
+          {/* to={`/products/${product.slug}`} */}
+
+          <Link href="/FV/123" isExternal={false}>
+            <div className="btn">View Details</div>
+          </Link>
+
+
+              <SelectField
+                label="Function"
+                descriptiveText="Choose function"
+                value={selectedFx}
+                onChange={handleSelectChange}
+              >
+                  <option value="FV">FV</option>
+                  <option value="NPer">NPer</option>
+                  <option value="Pmt">Pmt</option>
+                  <option value="SLN" disabled>SLN</option>
+              </SelectField>
+
+          {showFV && <FV rate={rate} pv = {pv} nper = {nper} />}
+          <button onClick={() => setShowFV(!showFV)}>Toggle FV</button>
+          
         </div>
 
       </header>
@@ -91,6 +141,9 @@ useEffect(() => {
           <h4>Products List</h4>
 
         </article>
+
+
+
       </main>
 
         <footer>

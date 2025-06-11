@@ -5,8 +5,8 @@ import FV from './FV';
 
 describe('<FV />', () => {
   test('it should mount', () => {
-    render(<FV rate={0.08} pv = {2000} nper = {5} functionname = {'FV'}/>);
-
+    render(<FV rate={0.08} pv = {2000} nper = {5} />);
+    /* functionname = {'FV'} */
     const fv = screen.getByTestId('FV');
 
     expect(fv).toBeInTheDocument();

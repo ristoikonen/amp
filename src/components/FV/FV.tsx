@@ -1,5 +1,4 @@
-import React, {   useState, useEffect,FC } from 'react';
-
+import React, { useState, useEffect,type FC } from 'react';
 import { FVWrapper } from './FV.styled';
 //import axios from 'axios'; 
 //axios.defaults.withCredentials = true;
@@ -18,50 +17,19 @@ interface FVProps
   rate: number;
   pv: number;
   nper: number;
-  functionname: string;
+  //functionname: string;
 }
-
-/* // Define the state type
-interface CounterState {
-  count: number;
-}
-type CounterAction =
-  | { type: 'increment'; payload: number }
-  | { type: 'decrement'; payload: number }
-  | { type: 'reset' };
-  // The reducer function: takes current state and an action, returns new state
-function counterReducer(state: CounterState, action: CounterAction): CounterState {
-  switch (action.type) {
-    case 'increment':
-      return { count: state.count + action.payload };
-    case 'decrement':
-      return { count: state.count - action.payload };
-    case 'reset':
-      return { count: 0 };
-    default:
-      // A reducer must always return a state, even if no action matches
-      return state;
-  }
-} */
-/*
-interface FinancialData {
-  fv: string;
-   rate: number;
-  pv: number;
-  nper: number; 
-}
-*/
 
 
 const FV: FC<FVProps> = (props) => {
-  const [functionname, setFunctionname] = useState<string | null>(null);
+  //const [functionname, setFunctionname] = useState<string | null>(null);
   const [fv, setFV]  = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
 
-    setFunctionname(props.functionname ?? '');
+    //setFunctionname(props.functionname ?? '');
 
     const fetchData = async () => {
       try {
@@ -116,15 +84,15 @@ const FV: FC<FVProps> = (props) => {
     
     const fetchFVData = async () => {
       
-      let fname = (functionname === "FV") ? FV_URI : "";
+      //let fname = (functionname === "FV") ? FV_URI : "";
       let rate = (Number.isNaN(props.rate ?? 0)) ? 0 : props.rate;
       let pv = (Number.isNaN(props.pv ?? 0)) ? 0 : props.pv;
       let nper = (Number.isNaN(props.nper ?? 0)) ? 0 : props.nper;
-      let lambda_uri = `https://lee4cnqs6ryonvdsu2dogpmzuy0uzzjw.lambda-url.ap-southeast-2.on.aws/{fname}?rate=${rate}&pv=${pv}&nper=${nper}`;
-      console.log(fname, lambda_uri);
+      let lambda_uri = `https://lee4cnqs6ryonvdsu2dogpmzuy0uzzjw.lambda-url.ap-southeast-2.on.aws/fv?rate=${rate}&pv=${pv}&nper=${nper}`;
+      console.log(lambda_uri);
 
       try {
-        if(!(fname === null || fname === undefined || fname === '')) 
+        if(!(lambda_uri === null || lambda_uri === undefined || lambda_uri === '')) 
         {
           const response = await fetch(
             lambda_uri
